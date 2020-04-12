@@ -7,6 +7,6 @@ export const fetchStatus = (phone) => {
     .then((response) => response.json())
 
     .catch((error) => {
-      console.error(error);
+      console.log(error);
     });
 };

@@ -1,0 +1,13 @@
+Step 1.
+react-native bundle --dev false --platform android --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res
+
+Step 2.
+cd android
+
+Step 3.
+./gradlew assembleDebug
+
+Step 4.
+./gradlew assembleRelease
+
+#Generated `apk` will be located at `android/app/build/outputs/apk`

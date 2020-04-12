@@ -1,4 +1,5 @@
 import {CONFIG} from '../../config/config';
+import {ToastAndroid} from 'react-native';
 
 export const uploadGeolocation = async (data) => {
   return fetch(`${CONFIG.API_HOST}/api/contacts`, {
@@ -11,6 +12,10 @@ export const uploadGeolocation = async (data) => {
   })
     .then((response) => response.json())
     .catch((error) => {
-      console.error(error);
+      console.log(error);
+      ToastAndroid.show(
+        'Unable to reach server, pls try later',
+        ToastAndroid.SHORT,
+      );
     });
 };

@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
+  ToastAndroid,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {STATUS_COLORS, UPLOAD_DELAY, FETCH_STATUS_DELAY} from '../../utils';
@@ -66,7 +67,7 @@ export default function Home() {
 
   const fetchStatusNow = () => {
     fetchStatus(user.phone).then((res) => {
-      if (res.data.length) {
+      if (res && res.data.length) {
         dispatch(updateWaitingStatus(false));
         dispatch(updateStatus(res.data[0]));
         resetNotification(0);
@@ -90,13 +91,16 @@ export default function Home() {
     setNotification(uploadingNotification);
 
     uploadGeolocation({...user, userData: geolocations}).then((res) => {
-      setNotification(afterUploadNotification);
+      if (res) {
+        setNotification(afterUploadNotification);
 
-      dispatch(updateWaitingStatus(true));
+        dispatch(updateWaitingStatus(true));
+        dispatch(updateLastUploadTime(new Date().getTime()));
 
-      dispatch(updateLastUploadTime(new Date().getTime()));
-
-      fetchStatusNow();
+        fetchStatusNow();
+      } else {
+        resetNotification(0);
+      }
     });
   };
 
@@ -113,9 +117,9 @@ export default function Home() {
     if (remainingHr < 0) {
       setShowAlert(true);
     } else {
-      resetNotification();
-      setNotification(
+      ToastAndroid.show(
         `Please wait for ${remainingHr}hours before you assess your risk again!`,
+        ToastAndroid.LONG,
       );
     }
   };
@@ -205,10 +209,7 @@ export default function Home() {
         <Button handlerPress={sendAlert} label="Assess My Risk" />
       </View>
       <View style={styles.notificationArea}>
-        <Text style={styles.notification}>
-          {notification}---
-          {new Date(geolocations[0]?.timestamp).toLocaleTimeString()}
-        </Text>
+        <Text style={styles.notification}>{notification}</Text>
       </View>
       <AlertComponent
         showAlert={showAlert}
