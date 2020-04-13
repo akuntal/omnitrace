@@ -17,10 +17,10 @@ export const convertTimestampToDate = (time) => {
   return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
 };
 
-export const GEOLOCATION_DELAY = 10000; // 300000; - 5 min
+export const GEOLOCATION_DELAY = 60000; // 300000; - 5 min
 
 export const UPLOAD_DELAY = 60 * 60 * 24 * 1000; //one day
 
 export const FETCH_STATUS_DELAY = 5000;
 
-export const LIMITS_GEOLOCATIONS = 10; // 21 * (UPLOAD_DELAY / GEOLOCATION_DELAY);
+export const LIMITS_GEOLOCATIONS = 21 * (UPLOAD_DELAY / GEOLOCATION_DELAY);

@@ -16,23 +16,19 @@ export const useGeolocation = () => {
   const dispatch = useDispatch();
 
   const getGeolocation = () => {
-    if (Geolocation) {
-      Geolocation.getCurrentPosition(
-        ({timestamp, coords: {latitude, longitude}}) => {
-          console.log({timestamp, latitude, longitude});
-          dispatch(updateGeolocation({timestamp, latitude, longitude}));
-        },
-        (error) => {
-          console.log(error);
-        },
-        {
-          enableHighAccuracy: true,
-          maximumAge: GEOLOCATION_DELAY,
-        },
-      );
-    } else {
-      Alert.alert('Error', 'geolocation not supported!!!');
-    }
+    Geolocation.getCurrentPosition(
+      ({timestamp, coords: {latitude, longitude}}) => {
+        console.log({timestamp, latitude, longitude});
+        dispatch(updateGeolocation({timestamp, latitude, longitude}));
+      },
+      (error) => {
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: GEOLOCATION_DELAY,
+      },
+    );
   };
 
   const invokeGetGeolaction = async () => {
@@ -44,7 +40,7 @@ export const useGeolocation = () => {
         getGeolocation();
       } else {
         Alert.alert(
-          'Location Permission not granted',
+          'Location Permission',
           'This app needs location permission to work',
           [{text: 'Settings', onPress: () => Linking.openSettings()}],
           {cancelable: false},
@@ -57,7 +53,7 @@ export const useGeolocation = () => {
 
   useEffect(() => {
     if (isUserRegistered) {
-      invokeGetGeolaction();
+      getGeolocation();
       BackgroundTimer.runBackgroundTimer(async () => {
         invokeGetGeolaction();
       }, GEOLOCATION_DELAY);
