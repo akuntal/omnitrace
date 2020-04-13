@@ -14,7 +14,7 @@ export const uploadGeolocation = async (data) => {
     .catch((error) => {
       console.log(error);
       ToastAndroid.show(
-        'Unable to reach server, pls try later',
+        'Unable to reach server, pls try again later',
         ToastAndroid.SHORT,
       );
     });

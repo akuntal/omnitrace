@@ -7,10 +7,9 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
-  ToastAndroid,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {STATUS_COLORS, UPLOAD_DELAY, FETCH_STATUS_DELAY} from '../../utils';
+import {STATUS_COLORS} from '../../utils';
 import {Location} from '../../components/Location';
 import {useGeolocation} from '../../hooks/useGeolocation';
 import {uploadGeolocation} from './uploadGeolocation';
@@ -29,6 +28,7 @@ import {LowText} from '../../components/LowText';
 import {MidText} from '../../components/MidText';
 import {HighText} from '../../components/HighText';
 import Images from '../../components/Images';
+import {FETCH_STATUS_DELAY} from '../../config/config';
 
 const afterUploadNotification =
   'Your location data is uploaded. Please wait for assessment results. ';
@@ -44,8 +44,6 @@ export default function Home() {
   const user = useSelector((state) => state.appState.user);
 
   const status = useSelector((state) => state.appState.status);
-
-  const lastUploadTime = useSelector((state) => state.appState.lastUploadTime);
 
   const isStatusWaiting = useSelector(
     (state) => state.appState.isStatusWaiting,
@@ -102,26 +100,6 @@ export default function Home() {
         resetNotification(0);
       }
     });
-  };
-
-  const minimumTimeRemaining = () => {
-    const currentTime = new Date().getTime();
-    const time = Math.ceil(
-      (UPLOAD_DELAY - (currentTime - lastUploadTime)) / (1000 * 3600),
-    );
-    return time;
-  };
-
-  const sendAlert = async () => {
-    const remainingHr = minimumTimeRemaining();
-    if (remainingHr < 0) {
-      setShowAlert(true);
-    } else {
-      ToastAndroid.show(
-        `Please wait for ${remainingHr}hours before you assess your risk again!`,
-        ToastAndroid.LONG,
-      );
-    }
   };
 
   const resetNotification = (time = 5000) => {
@@ -206,7 +184,10 @@ export default function Home() {
         )}
       </SafeAreaView>
       <View style={styles.upload}>
-        <Button handlerPress={sendAlert} label="Assess My Risk" />
+        <Button
+          handlerPress={() => setShowAlert(true)}
+          label="Assess My Risk"
+        />
       </View>
       <View style={styles.notificationArea}>
         <Text style={styles.notification}>{notification}</Text>

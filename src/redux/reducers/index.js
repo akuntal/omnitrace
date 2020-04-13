@@ -5,7 +5,7 @@ import {
   UPDATE_WAITING_STATUS,
   UPDATE_LAST_UPLOAD_TIME,
 } from '../constants';
-import {LIMITS_GEOLOCATIONS} from '../../utils';
+import {LIMITS_GEOLOCATIONS} from '../../config/config';
 
 const initialState = {
   isUserRegistered: false,

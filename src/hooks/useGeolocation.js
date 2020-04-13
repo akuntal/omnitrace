@@ -3,8 +3,8 @@ import BackgroundTimer from 'react-native-background-timer';
 import {Alert, PermissionsAndroid, Linking} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateGeolocation} from '../redux/actions';
-import {GEOLOCATION_DELAY} from '../utils';
 import Geolocation from 'react-native-geolocation-service';
+import {GEOLOCATION_DELAY} from '../config/config';
 
 Geolocation.setRNConfiguration({authorizationLevel: 'always'});
 
@@ -53,7 +53,7 @@ export const useGeolocation = () => {
 
   useEffect(() => {
     if (isUserRegistered) {
-      getGeolocation();
+      invokeGetGeolaction();
       BackgroundTimer.runBackgroundTimer(async () => {
         invokeGetGeolaction();
       }, GEOLOCATION_DELAY);
