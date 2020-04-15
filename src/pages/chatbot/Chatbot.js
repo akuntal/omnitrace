@@ -23,7 +23,7 @@ export const Chatbot = ({
       <View style={styles.scrollView}>
         <WebView
           source={{
-            uri: url,
+            uri: `${url}&nocache=${new Date().getTime()}`,
           }}
         />
       </View>

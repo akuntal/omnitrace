@@ -12,6 +12,12 @@ export const About = () => (
       </View>
       <Text style={styles.txt}>OmniTrace</Text>
     </View>
+    <View style={styles.footer}>
+      <Text>Powered by</Text>
+      <View>
+        <Image source={require('../../../assets/Image4.png')} />
+      </View>
+    </View>
   </>
 );
 
@@ -42,5 +48,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: -50,
+  },
+  footer: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 20,
+    alignItems: 'center',
   },
 });
