@@ -41,7 +41,7 @@ export const useGeolocation = () => {
       } else {
         Alert.alert(
           'Location Permission',
-          'This app needs location permission to work',
+          "Allow OmniTrace to access this device's location to assess your risk of exposure?",
           [{text: 'Settings', onPress: () => Linking.openSettings()}],
           {cancelable: false},
         );

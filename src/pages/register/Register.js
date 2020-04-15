@@ -151,7 +151,8 @@ class Register extends React.Component {
               onValueChange={() => this.setState({terms: !this.state.terms})}
             />
             <Text style={styles.txt}>
-              I agree to share my data to assess risk of exposure.
+              I agree to share my location data for risk assessment and other
+              basic personal details if found high risk.
             </Text>
           </View>
 

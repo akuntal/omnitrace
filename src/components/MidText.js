@@ -1,16 +1,25 @@
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
 import {Link} from './Link';
+import {NavigationLink} from './NavigationLink';
 
 export const MidText = () => (
   <>
     <Text style={styles.intersectionText}>
-      Your risk of infection is medium. We rocommend you to consult the doctor.
-      Remember that currently it is safer to consult a doctor thru phone or
-      video than to visit the hospital.
+      Your location data has been compared with 1 million records in the central
+      database and found some intersections.
     </Text>
-    <Text style={[styles.intersectionText, [{marginTop: 10}]]}>
-      We recommend that you stay home to avoid chances of exposure.
+    <Text style={[styles.intersectionText, [{fontWeight: 'bold'}]]}>
+      Your risk of infection is medium.
+    </Text>
+    <Text style={styles.intersectionText}>
+      We rocommend you to consult the doctor.
+    </Text>
+    <Text style={[styles.intersectionText, [{marginBottom: 10}]]}>
+      Per Govt guidelines, you need to&nbsp;
+      <NavigationLink text="add your location history" screen="Chatbot" />
+      &nbsp; history which will be used for research and managing current health
+      crisis.
     </Text>
     <Text style={styles.intersectionText}>
       Follow these &nbsp;

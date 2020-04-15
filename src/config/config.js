@@ -9,3 +9,8 @@ export const ONE_DAY = 60 * 60 * 24 * 1000; //one day
 export const FETCH_STATUS_DELAY = 5000;
 
 export const LIMITS_GEOLOCATIONS = 21 * (ONE_DAY / GEOLOCATION_DELAY);
+
+export const CHATBOT_URL_1 =
+  'https://xd.adobe.com/view/e7255c40-f67a-4719-5cba-aa64fc0af963-9114/?fullscreen&hints=off';
+export const CHATBOT_URL_2 =
+  'https://xd.adobe.com/view/e7255c40-f67a-4719-5cba-aa64fc0af963-9114/?fullscreen&hints=off';

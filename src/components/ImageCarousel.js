@@ -23,8 +23,7 @@ const data = [
   {
     title:
       'OmniTrace early detection works by checking where you have been recently against the time and place of people who reported positive. \n\n The app results are accompanied by instructions on how to self-protect and action you can take in case of exposure.',
-    content1:
-      'Just,\n 1. Install the app \n 2. Turn on GPS location \n 3. Assess your risk, every 24 hours ',
+    content1: 'Just,\n 1. Turn on GPS location \n 2. Assess your risk',
     content2: '',
   },
   {

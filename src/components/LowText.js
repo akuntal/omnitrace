@@ -4,7 +4,13 @@ import {Link} from './Link';
 
 export const LowText = () => (
   <>
-    <Text style={styles.intersectionText}>Your risk of infection is low.</Text>
+    <Text style={styles.intersectionText}>
+      Your location data has been compared with 1 million records in the central
+      database and found 0 intersections.
+    </Text>
+    <Text style={[styles.intersectionText, [{fontWeight: 'bold'}]]}>
+      Your risk of infection is low.
+    </Text>
     <Text style={styles.intersectionText}>
       We recommend that you stay home to avoid chances of exposure.
     </Text>

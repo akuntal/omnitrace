@@ -123,15 +123,20 @@ export default function Home() {
       <SafeAreaView style={styles.mainContainer}>
         {!status.status && (
           <View style={styles.message}>
-            <View style={styles.imageContainer}>
-              <Image source={Images.image4} style={{height: 160, width: 160}} />
-            </View>
             <Text style={styles.messageText_HomeScreen}>
-              Your location data is being gathered.
+              Your current location data is being gathered.
+            </Text>
+            <View style={styles.imageContainer}>
+              <Image source={Images.image4} style={{height: 100, width: 100}} />
+            </View>
+
+            <Text style={styles.messageText_HomeScreen}>
+              You can assess your risk, basis your location data by clicking the
+              button below.
             </Text>
             <Text style={styles.messageText_HomeScreen}>
-              You can assess your risk, basis your location history, once in
-              every 24hrs by clicking the button below.
+              You can also assess your risk basis your past location data by
+              navigating to menu
             </Text>
             <Text style={styles.messageText_HomeScreen}>
               We recommend you not to close the app or disable GPS location
@@ -222,14 +227,14 @@ const styles = StyleSheet.create({
   messageText: {
     paddingBottom: 10,
     textAlign: 'center',
-    fontSize: 17,
+    fontSize: 15,
     fontFamily: 'Helvetica Neue',
     color: '#343C41',
   },
   messageText_HomeScreen: {
     paddingBottom: 30,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 17,
     fontFamily: 'Helvetica Neue',
     color: '#343C41',
   },
@@ -313,6 +318,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     padding: 10,
     margin: 20,
+    marginTop: 10,
     borderWidth: 0,
     justifyContent: 'center',
     alignItems: 'center',
