@@ -16,7 +16,7 @@ export const AppDrawer = () => {
       <Drawer.Screen name="Profile" component={Register} />
       <Drawer.Screen
         name="Chatbot"
-        options={{drawerLabel: 'Assess risk by location history'}}
+        options={{drawerLabel: 'Assess Risk by Location History'}}
         component={Chatbot}
       />
       <Drawer.Screen name="About" component={About} />
