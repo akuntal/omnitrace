@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 export const Chatbot = ({
   route: {
     params: {
-      btnLabel = 'Assets my Risk',
+      btnLabel = 'Assess My Risk',
       title = 'Update Location History',
       url = CHATBOT_URL_1,
     },
