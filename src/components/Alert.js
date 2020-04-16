@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
 
-import {
-  Platform,
-  StyleSheet,
-  View,
-  Text,
-  Modal,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Text, Modal, TouchableOpacity} from 'react-native';
 import {Button} from './Button';
 
 export class AlertComponent extends Component {
@@ -37,12 +30,6 @@ export class AlertComponent extends Component {
                 width: '100%',
                 alignItems: 'center',
               }}>
-              {/* <TouchableOpacity
-                style={styles.buttonStyle_Yes}
-                onPress={this.props.onOk}
-                activeOpacity={0.7}>
-                <Text style={styles.TextStyle}> YES </Text>
-              </TouchableOpacity> */}
               <View style={styles.buttonContainer}>
                 <Button label="YES" handlerPress={this.props.onOk} />
               </View>
@@ -68,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    height: 400,
+    height: 360,
     width: '80%',
     borderWidth: 1,
     borderColor: '#FFFFFF',
@@ -76,16 +63,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingTop: 20,
     paddingBottom: 40,
-    paddingLeft: 40,
-    paddingRight: 40,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   Alert_Title: {
     fontSize: 25,
     fontFamily: 'Helvetica Neue, Medium',
     color: '#282D31',
     textAlign: 'center',
-    paddingTop: 10,
-    height: '23%',
+    height: 60,
   },
   Alert_Message: {
     fontSize: 15,
@@ -93,8 +79,8 @@ const styles = StyleSheet.create({
     color: '#4B5860',
     textAlign: 'center',
     padding: 0,
-    margin: 20,
-    height: '27%',
+    marginBottom: 20,
+    height: 100,
   },
   buttonContainer: {
     width: '60%',

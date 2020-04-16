@@ -16,6 +16,7 @@ import {Button} from '../../components/Button';
 import {connect} from 'react-redux';
 import {registerUser} from '../../redux/actions';
 import ImageCarousel from '../../components/ImageCarousel';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const YEARS = getIncrementalArray(1950, 2020);
 
@@ -83,94 +84,98 @@ class Register extends React.Component {
     return (
       <>
         <Header title={headerLabel} hideHamburger={hideHamburger} />
-        <View style={styles.container}>
-          <>
-            <Text style={styles.txt}>Year of Birth*</Text>
-            <View style={styles.pickerContainer}>
-              <Picker
-                enabled={!isUserRegistered}
-                style={styles.picker}
-                selectedValue={this.state.user.yob}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({user: {...this.state.user, yob: itemValue}})
-                }>
-                {YEARS.map((year) => (
-                  <Picker.Item
-                    key={`key-${year}`}
-                    label={year.toString()}
-                    value={year}
-                  />
-                ))}
-              </Picker>
-            </View>
-          </>
+        <ScrollView>
+          <View style={styles.container}>
+            <>
+              <Text style={styles.txt}>Year of Birth*</Text>
+              <View style={styles.pickerContainer}>
+                <Picker
+                  enabled={!isUserRegistered}
+                  style={styles.picker}
+                  selectedValue={this.state.user.yob}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({user: {...this.state.user, yob: itemValue}})
+                  }>
+                  {YEARS.map((year) => (
+                    <Picker.Item
+                      key={`key-${year}`}
+                      label={year.toString()}
+                      value={year}
+                    />
+                  ))}
+                </Picker>
+              </View>
+            </>
 
-          <>
-            <Text style={styles.txt}>Gender*</Text>
-            <View style={styles.pickerContainer}>
-              <Picker
-                enabled={!isUserRegistered}
-                style={styles.picker}
-                selectedValue={this.state.gender}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({user: {...this.state.user, gender: itemValue}})
-                }>
-                <Picker.Item label="Male" value="M" />
-                <Picker.Item label="Female" value="F" />
-              </Picker>
-            </View>
-          </>
+            <>
+              <Text style={styles.txt}>Gender*</Text>
+              <View style={styles.pickerContainer}>
+                <Picker
+                  enabled={!isUserRegistered}
+                  style={styles.picker}
+                  selectedValue={this.state.gender}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({
+                      user: {...this.state.user, gender: itemValue},
+                    })
+                  }>
+                  <Picker.Item label="Male" value="M" />
+                  <Picker.Item label="Female" value="F" />
+                </Picker>
+              </View>
+            </>
 
-          <>
-            <Text style={styles.txt}>Mobile Number*</Text>
-            <View style={styles.mobileContainer}>
+            <>
+              <Text style={styles.txt}>Mobile Number*</Text>
+              <View style={styles.mobileContainer}>
+                <Image
+                  source={require('../../../assets/flag.png')}
+                  style={styles.flag}
+                />
+                <Text style={styles.countryCodeText}>+91</Text>
+                <TextInput
+                  editable={!isUserRegistered}
+                  maxLength={10}
+                  style={styles.input}
+                  value={this.state.user.phone}
+                  keyboardType="number-pad"
+                  autoCompleteType="tel"
+                  onChangeText={(val) => {
+                    this.setState({user: {...this.state.user, phone: val}});
+                  }}
+                />
+              </View>
+            </>
+
+            <View style={styles.containerCheckbox}>
+              <CheckBox
+                disabled={isUserRegistered}
+                style={styles.checkbox}
+                value={this.state.terms}
+                onValueChange={() => this.setState({terms: !this.state.terms})}
+              />
+              <Text style={styles.txt}>
+                I agree to share my location data for risk assessment and other
+                basic personal details if found high risk.
+              </Text>
+            </View>
+
+            <View style={styles.done}>
+              <Button
+                handlerPress={this.signUp}
+                label="Register"
+                disabled={!!btnDisabled}
+              />
+            </View>
+
+            <View>
               <Image
-                source={require('../../../assets/flag.png')}
-                style={styles.flag}
-              />
-              <Text style={styles.countryCodeText}>+91</Text>
-              <TextInput
-                editable={!isUserRegistered}
-                maxLength={10}
-                style={styles.input}
-                value={this.state.user.phone}
-                keyboardType="number-pad"
-                autoCompleteType="tel"
-                onChangeText={(val) => {
-                  this.setState({user: {...this.state.user, phone: val}});
-                }}
+                source={require('../../../assets/Image4.png')}
+                style={styles.logo}
               />
             </View>
-          </>
-
-          <View style={styles.containerCheckbox}>
-            <CheckBox
-              disabled={isUserRegistered}
-              style={styles.checkbox}
-              value={this.state.terms}
-              onValueChange={() => this.setState({terms: !this.state.terms})}
-            />
-            <Text style={styles.txt}>
-              I agree to share my location data for risk assessment and other
-              basic personal details if found high risk.
-            </Text>
           </View>
-
-          <View style={styles.done}>
-            <Button
-              handlerPress={this.signUp}
-              label="Register"
-              disabled={!!btnDisabled}
-            />
-          </View>
-
-          <View>
-            <Image
-              source={require('../../../assets/Image4.png')}
-              style={styles.logo}
-            />
-          </View>
-        </View>
+        </ScrollView>
       </>
     );
   }
@@ -188,7 +193,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Register);
 
 const styles = StyleSheet.create({
   done: {
-    width: Dimensions.get('window').width - 260,
+    width: 150, //Dimensions.get('window').width - 260,
     marginTop: 40,
     borderRadius: 50,
   },
@@ -285,6 +290,7 @@ const styles = StyleSheet.create({
     width: 98,
     height: 15,
     marginTop: 80,
+    marginBottom: 20,
   },
   countryCodeText: {
     marginTop: 24,

@@ -11,7 +11,7 @@ export const NavigationLink = (props) => {
       style={styles.link}
       onPress={() =>
         navigation.navigate(props.screen, {
-          btnLabel: 'Done',
+          btnLabel: 'Update',
           url: CHATBOT_URL_2,
         })
       }>

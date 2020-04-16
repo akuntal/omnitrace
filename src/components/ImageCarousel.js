@@ -10,6 +10,7 @@ import {
 import Carousel from 'react-native-anchor-carousel';
 import {Button} from './Button';
 import Images from './Images';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const {width} = Dimensions.get('window');
 
@@ -115,18 +116,22 @@ export default class ImageCarousel extends Component {
 
   render() {
     return (
-      <Carousel
-        style={styles.carousel}
-        data={data}
-        renderItem={this.renderItem}
-        itemWidth={0.99 * width}
-        inActiveOpacity={0.3}
-        containerWidth={width}
-        pagingEnable={true}
-        ref={(c) => {
-          this.numberCarousel = c;
-        }}
-      />
+      <ScrollView>
+        <View>
+          <Carousel
+            style={styles.carousel}
+            data={data}
+            renderItem={this.renderItem}
+            itemWidth={0.99 * width}
+            inActiveOpacity={0.3}
+            containerWidth={width}
+            pagingEnable={true}
+            ref={(c) => {
+              this.numberCarousel = c;
+            }}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }

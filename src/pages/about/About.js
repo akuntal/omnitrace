@@ -14,7 +14,7 @@ export const About = () => (
     </View>
     <View style={styles.footer}>
       <Text>Powered by</Text>
-      <View>
+      <View style={{marginTop: 10}}>
         <Image source={require('../../../assets/Image4.png')} />
       </View>
     </View>

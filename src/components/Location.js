@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     display: 'flex',
     flexDirection: 'column',
-    height: 40,
+    height: 50,
   },
   time: {
     fontFamily: 'Helvetica Neue',

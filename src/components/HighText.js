@@ -17,8 +17,7 @@ export const HighText = () => (
     <Text style={[styles.intersectionText, [{marginBottom: 10}]]}>
       Per Govt guidelines, you need to&nbsp;
       <NavigationLink text="add your location history" screen="Chatbot" />
-      &nbsp; history which will be used for research and managing current health
-      crisis.
+      &nbsp; which will be used for research and managing current health crisis.
     </Text>
 
     <Text style={styles.intersectionText}>

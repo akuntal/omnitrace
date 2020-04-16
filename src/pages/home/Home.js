@@ -13,7 +13,7 @@ import {STATUS_COLORS} from '../../utils';
 import {Location} from '../../components/Location';
 import {useGeolocation} from '../../hooks/useGeolocation';
 import {uploadGeolocation} from './uploadGeolocation';
-import {fetchStatus} from '../../hooks/useGetStatus';
+import {fetchStatus, fetchAllAddress} from '../../hooks/useGetStatus';
 import {Header} from '../../components/Header';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {AlertComponent} from '../../components/Alert';
@@ -64,10 +64,24 @@ export default function Home() {
   const [showAlert, setShowAlert] = useState(false);
 
   const fetchStatusNow = () => {
-    fetchStatus(user.phone).then((res) => {
+    fetchStatus(user.phone).then(async (res) => {
       if (res && res.data.length) {
+        const [originalStatus] = res.data;
+        try {
+          const addresses = await fetchAllAddress(originalStatus.intersections);
+
+          originalStatus.intersections = originalStatus.intersections.map(
+            ({timestamp}, i) => ({
+              timestamp,
+              display_name: addresses[i].display_name,
+            }),
+          );
+          console.log(originalStatus);
+          dispatch(updateStatus(originalStatus));
+        } catch (err) {
+          dispatch(updateStatus(originalStatus));
+        }
         dispatch(updateWaitingStatus(false));
-        dispatch(updateStatus(res.data[0]));
         resetNotification(0);
       } else {
         setTimeout(fetchStatusNow, FETCH_STATUS_DELAY);
@@ -120,74 +134,91 @@ export default function Home() {
     <>
       <StatusBar barStyle="dark-content" />
       <Header showLogo={true} />
-      <SafeAreaView style={styles.mainContainer}>
-        {!status.status && (
-          <View style={styles.message}>
-            <Text style={styles.messageText_HomeScreen}>
-              Your current location data is being gathered.
-            </Text>
-            <View style={styles.imageContainer}>
-              <Image source={Images.image4} style={{height: 100, width: 100}} />
-            </View>
+      <ScrollView>
+        <SafeAreaView style={styles.mainContainer}>
+          {!status.status && (
+            <View style={styles.message}>
+              <Text style={styles.messageText_HomeScreen}>
+                Your current location data is being gathered.
+              </Text>
+              <View style={styles.imageContainer}>
+                <Image
+                  source={Images.image4}
+                  style={{height: 100, width: 100}}
+                />
+              </View>
 
-            <Text style={styles.messageText_HomeScreen}>
-              You can assess your risk, basis your location data by clicking the
-              button below.
-            </Text>
-            <Text style={styles.messageText_HomeScreen}>
-              You can also assess your risk basis your past location data by
-              navigating to menu
-            </Text>
-            <Text style={styles.messageText_HomeScreen}>
-              We recommend you not to close the app or disable GPS location
-              sharing, for unambiguous results.
-            </Text>
-          </View>
-        )}
-        {status.status && (
-          <View style={styles.containerTop}>
-            <Text style={styles.headText}>Risk Factor</Text>
-            <View
-              style={circleStyles(STATUS_COLORS[status.status.toLowerCase()])}>
-              <Text
-                style={statusTextStyles(
+              <Text style={styles.messageText_HomeScreen}>
+                You can assess your risk, basis your location data by clicking
+                the button below.
+              </Text>
+              <Text style={styles.messageText_HomeScreen}>
+                You can also assess your risk basis your past location data by
+                navigating to menu
+              </Text>
+              <Text style={styles.messageText_HomeScreen}>
+                We recommend you not to close the app or disable GPS location
+                sharing, for unambiguous results.
+              </Text>
+            </View>
+          )}
+          {status.status && (
+            <View style={styles.containerTop}>
+              <Text style={styles.headText}>Risk Factor</Text>
+              <View
+                style={circleStyles(
                   STATUS_COLORS[status.status.toLowerCase()],
                 )}>
-                {status.status.toUpperCase()}
-              </Text>
+                <Text
+                  style={statusTextStyles(
+                    STATUS_COLORS[status.status.toLowerCase()],
+                  )}>
+                  {status.status.toUpperCase()}
+                </Text>
+              </View>
+              <View style={styles.intersectionTextContainer}>
+                {status.status.toLowerCase() === 'high' && <HighText />}
+                {status.status.toLowerCase() === 'mid' && <MidText />}
+                {status.status.toLowerCase() === 'low' && <LowText />}
+              </View>
             </View>
-            <View style={styles.intersectionTextContainer}>
-              {status.status.toLowerCase() === 'high' && <HighText />}
-              {status.status.toLowerCase() === 'mid' && <MidText />}
-              {status.status.toLowerCase() === 'low' && <LowText />}
-            </View>
-          </View>
-        )}
-        {status.intersections && !!status.intersections.length && (
-          <>
-            <View style={styles.exposureHeaderTextContainer}>
-              <Text style={[styles.messageText, [{textAlign: 'left'}]]}>
-                Your potential exposure(s)
-              </Text>
-            </View>
-            <View style={styles.locationsContainer}>
-              <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={styles.scrollView}>
-                <View style={styles.body}>
-                  {status.intersections.map(({timestamp, lat, long}, index) => (
-                    <Location
-                      key={`key-${timestamp + index}`}
-                      time={timestamp}
-                      location={`Lat-${lat}, Long-${long}`}
-                    />
-                  ))}
-                </View>
-              </ScrollView>
-            </View>
-          </>
-        )}
-      </SafeAreaView>
+          )}
+          {status.intersections && !!status.intersections.length && (
+            <>
+              <View style={styles.exposureHeaderTextContainer}>
+                <Text
+                  style={[
+                    styles.messageText,
+                    [{textAlign: 'left', paddingBottom: 8}],
+                  ]}>
+                  Your potential exposure(s)
+                </Text>
+              </View>
+              <View style={styles.locationsContainer}>
+                <ScrollView
+                  contentInsetAdjustmentBehavior="automatic"
+                  style={styles.scrollView}>
+                  <View style={styles.body}>
+                    {status.intersections.map(
+                      ({timestamp, lat, long, display_name}, index) => (
+                        <Location
+                          key={`key-${timestamp + index}`}
+                          time={timestamp}
+                          location={
+                            display_name
+                              ? display_name
+                              : `Lat-${lat}, Long-${long}`
+                          }
+                        />
+                      ),
+                    )}
+                  </View>
+                </ScrollView>
+              </View>
+            </>
+          )}
+        </SafeAreaView>
+      </ScrollView>
       <View style={styles.upload}>
         <Button
           handlerPress={() => setShowAlert(true)}
@@ -212,6 +243,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 20,
+    paddingBottom: 90,
   },
   message: {
     //padding: 20,
@@ -254,8 +286,8 @@ const styles = StyleSheet.create({
   },
   circle: {
     borderRadius: 60,
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     backgroundColor: '#fff',
     borderColor: '#f00',
     borderStyle: 'solid',
@@ -276,7 +308,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   exposureHeaderTextContainer: {
-    marginTop: 10,
+    marginTop: 8,
   },
   locationsContainer: {
     elevation: 5,
@@ -296,9 +328,10 @@ const styles = StyleSheet.create({
   },
   upload: {
     position: 'absolute',
-    bottom: 30,
-    width: 150,
     marginTop: 20,
+    width: 150,
+    bottom: 30,
+    marginBottom: 10,
     alignSelf: 'center',
   },
   notificationArea: {
