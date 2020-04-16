@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 import WebView from 'react-native-webview';
 import {Header} from '../../components/Header';
@@ -17,11 +17,24 @@ export const Chatbot = ({
   },
 }) => {
   const navigation = useNavigation();
+
+  let [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setCounter(counter++);
+    });
+    return unsubscribe;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header title={title} />
       <View style={styles.scrollView}>
         <WebView
+          key={`key-webview-${counter}`}
+          startInLoadingState={true}
           source={{
             uri: `${url}&nocache=${new Date().getTime()}`,
           }}

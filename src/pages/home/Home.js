@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 20,
-    paddingBottom: 90,
+    paddingBottom: 80,
   },
   message: {
     //padding: 20,
@@ -331,7 +331,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 150,
     bottom: 30,
-    marginBottom: 10,
     alignSelf: 'center',
   },
   notificationArea: {

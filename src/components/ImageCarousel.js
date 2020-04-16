@@ -11,6 +11,7 @@ import Carousel from 'react-native-anchor-carousel';
 import {Button} from './Button';
 import Images from './Images';
 import {ScrollView} from 'react-native-gesture-handler';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const {width} = Dimensions.get('window');
 
@@ -116,22 +117,24 @@ export default class ImageCarousel extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <View>
-          <Carousel
-            style={styles.carousel}
-            data={data}
-            renderItem={this.renderItem}
-            itemWidth={0.99 * width}
-            inActiveOpacity={0.3}
-            containerWidth={width}
-            pagingEnable={true}
-            ref={(c) => {
-              this.numberCarousel = c;
-            }}
-          />
-        </View>
-      </ScrollView>
+      <SafeAreaView>
+        <ScrollView>
+          <View style={{minHeight: Dimensions.get('window').height - 40}}>
+            <Carousel
+              style={styles.carousel}
+              data={data}
+              renderItem={this.renderItem}
+              itemWidth={0.99 * width}
+              inActiveOpacity={0.3}
+              containerWidth={width}
+              pagingEnable={true}
+              ref={(c) => {
+                this.numberCarousel = c;
+              }}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
